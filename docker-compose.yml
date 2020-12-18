@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+    php_server:
+        build: ./
+        volumes:
+            - ./:/var/www
+        ports:
+            - 80:80
+        depends_on:
+            - blat_server
+    blat_server:
+        build: ./go/blatserver
+        volumes:
+            - ./go/blatserver/assets:/assets

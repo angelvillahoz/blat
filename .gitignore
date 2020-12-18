@@ -1,0 +1,15 @@
+# .2bit files about compressed FASTA species genomes
+*.2bit
+
+# Log and debugging files
+logs/
+
+# Miscellaneous project files
+*.bak
+.env
+
+# Node modules
+html/node_modules/
+
+# VS Code files
+blat.code-workspace
