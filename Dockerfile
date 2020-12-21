@@ -3,10 +3,26 @@ FROM php:7.4-apache
 
 # Install the dependencies and the PHP extensions .
 RUN apt-get update -y && \
-    apt-get install -y libcurl4-openssl-dev libmcrypt-dev libonig-dev libpng-dev libpq-dev libxml2-dev libyaml-dev unzip wget && \
-    docker-php-ext-install bcmath gd && \
-    pecl install mcrypt-1.0.4 yaml-2.2.0 xdebug-3.0.1 && \
-    docker-php-ext-enable mcrypt yaml
+    apt-get install -y --no-install-recommends \
+        libcurl4-openssl-dev \
+        libmcrypt-dev \
+        libonig-dev \
+        libpng-dev \
+        libpq-dev \
+        libxml2-dev \
+        libyaml-dev \
+        unzip \
+        wget && \
+    docker-php-ext-install \
+        bcmath \
+        gd && \
+    pecl install \
+        mcrypt-1.0.4 \
+        yaml-2.2.0 \
+        xdebug-3.0.1 && \
+    docker-php-ext-enable \
+        mcrypt \
+        yaml
 
 # Copy configuration and license files to their respective places.
 COPY ./assets/config.ini /usr/local/etc/php/conf.d/

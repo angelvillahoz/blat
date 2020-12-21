@@ -2,7 +2,11 @@ FROM golang:1.15
 
 WORKDIR /go/src/
 RUN apt-get update && \
-    apt-get install -y libkrb5-dev libpng-dev patch unzip && \
+    apt-get install -y --no-install-recommends \
+        libkrb5-dev \
+        libpng-dev \
+        patch \
+        unzip && \
     go get -u github.com/gorilla/mux
 
 ADD . .

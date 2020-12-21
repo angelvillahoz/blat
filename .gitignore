@@ -1,6 +1,12 @@
 # .2bit files about compressed FASTA species genomes
 *.2bit
 
+# Composer files
+vendor/
+
+# Configuration files
+config/settings.yml
+
 # Log and debugging files
 logs/
 
