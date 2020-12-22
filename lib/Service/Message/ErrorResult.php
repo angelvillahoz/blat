@@ -4,8 +4,8 @@ namespace CCR\BLAT\Service\Message;
 // Standard PHP Libraries (SPL)
 use JsonSerializable;
 /**
- * Provides a generic success result. Particularly useful as a response for if
- * an error or exception occurs.
+ * Provides a generic success result.
+ * Particularly useful as a response for if an error or exception occurs.
  */
 class ErrorResult implements JsonSerializable
 {

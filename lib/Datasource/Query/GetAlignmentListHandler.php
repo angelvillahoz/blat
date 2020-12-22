@@ -1,9 +1,9 @@
 <?php
-namespace CCR\BLAT\Datasource\Blat\Query;
+namespace CCR\BLAT\Datasource\Query;
 
 // BLAT libraries with namespaces
-use CCR\BLAT\Datasource\Blat\Query\GetAlignmentList;
-use CCR\BLAT\Datasource\Blat\Service\AlignmentMatcher;
+use CCR\BLAT\Datasource\Query\GetAlignmentList;
+use CCR\BLAT\Datasource\Service\AlignmentMatcher;
 use CCR\BLAT\Service\Message\QueryResult;
 class GetAlignmentListHandler
 {

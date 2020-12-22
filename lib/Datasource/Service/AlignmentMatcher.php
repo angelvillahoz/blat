@@ -1,8 +1,6 @@
 <?php
-namespace CCR\BLAT\Datasource\Blat\Service;
+namespace CCR\BLAT\Datasource\Service;
 
-// Standard PHP Libraries (SPL)
-use RuntimeException;
 // BLAT libraries with namespaces
 use CCR\BLAT\Service\External\BlatDataSource;
 class AlignmentMatcher

@@ -2,9 +2,7 @@
 namespace CCR\BLAT\Service\Message;
 
 // Standard PHP Libraries (SPL)
-use JsonSerializable, RuntimeException;
-// Third-party libraries
-use Doctrine\DBAL\Query\QueryBuilder;
+use JsonSerializable;
 /**
  * Provides a wrapper for a query result. This should be returned by a query
  * handler.

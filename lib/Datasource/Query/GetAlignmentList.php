@@ -1,5 +1,5 @@
 <?php
-namespace CCR\BLAT\Datasource\Blat\Query;
+namespace CCR\BLAT\Datasource\Query;
 
 // Third-party libraries
 use Psr\Http\Message\ServerRequestInterface;
