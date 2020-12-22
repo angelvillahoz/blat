@@ -8,9 +8,7 @@ use CCR\BLAT\Service\Message\QueryResult;
 class GetAlignmentListHandler
 {
     private $alignmentMatcher;
-    public function __construct(
-        AlignmentMatcher $alignmentMatcher
-    ) {
+    public function __construct(AlignmentMatcher $alignmentMatcher) {
         $this->alignmentMatcher = $alignmentMatcher;
     }
     public function __invoke(GetAlignmentList $getAlignmentList): QueryResult

@@ -2,17 +2,17 @@ class SpeciesScientificNameSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectValue: 'dmel',
+      speciesShortName: 'dmel',
     };
   };
   handleChange = e => {
-     this.setState({selectValue:e.target.value});
+     this.setState({speciesShortName:e.target.value});
   };
   render() {
     return (
       <div className="SpeciesScientificNameSelector">
       <select 
-        value={this.state.selectValue} 
+        value={this.state.speciesShortName} 
         onChange={this.handleChange} 
       >
         <option value="aaeg">Aedes aegypti (aaeg)</option>
@@ -29,7 +29,7 @@ class BlatForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectValue: 'dmel',
+      speciesShortName: 'dmel',
       identityPercentage: '95',
       sequence: '',
     };

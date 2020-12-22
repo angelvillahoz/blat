@@ -15,7 +15,10 @@ RUN apt-get update -y && \
         wget && \
     docker-php-ext-install \
         bcmath \
-        gd && \
+        gd \
+        mysqli \
+        pdo_mysql \
+        pgsql && \
     pecl install \
         mcrypt-1.0.4 \
         yaml-2.2.0 \

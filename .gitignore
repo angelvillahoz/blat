@@ -13,6 +13,7 @@ logs/
 # Miscellaneous project files
 *.bak
 .env
+*.sql.gz
 
 # Node modules
 html/node_modules/
