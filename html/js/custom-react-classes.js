@@ -40,7 +40,7 @@ class BlatForm extends React.Component {
       data: this.state,
       headers: { 'content-type': 'application/json' },
       method: 'post',
-      url: API_PATH
+      url: API_PATH + '/search'
     })
     .then(function (response) {
       console.log(response)
@@ -73,6 +73,7 @@ class BlatForm extends React.Component {
                       name="sequence"
                       rows={10}
                       cols={100}
+                      value={this.state.sequence}
                       onChange={e => this.setState({ sequence: e.target.value })}></textarea><br />
             <br />
             <input type="submit"

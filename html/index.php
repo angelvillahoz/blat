@@ -15,7 +15,7 @@
 <div id="root"></div>
 <script type="text/babel">
 
-const API_PATH = '/api/blat_search.php';
+const API_PATH = 'api';
 
 const customStyles = {
   option: (provided, state) => ({
