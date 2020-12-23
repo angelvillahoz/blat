@@ -9,17 +9,59 @@ $container = $app->getContainer();
 $container["config"] = function () {
     return $GLOBALS["options"];
 };
-// data source
+// data sources
 $container["blat"] = function ($c) {
     return new CCR\BLAT\Service\External\BlatDataSource(
         new GuzzleHttp\Client(["base_uri" => $c->get("config")->blat->url])
+    );
+};
+$container["easydb"] = function ($c) {
+    return new \ParagonIE\EasyDB\EasyDB(
+        $c->get("pdo"),
+        "mysql"
+    );
+};
+$container["latitude"] = function () {
+    return new Latitude\QueryBuilder\QueryFactory("mysql");
+};
+$container["pdo"] = function ($c) {
+    $host = $c->get("config")->database->host;
+    $db = $c->get("config")->database->name;
+    $user = $c->get("config")->database->user;
+    $pass = $c->get("config")->database->password;
+    $dsn = sprintf(
+        "mysql:host=%s;dbname=%s;charset=utf8",
+        $host,
+        $db
+    );
+    $opt = [
+        \PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        \PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        \PDO::ATTR_EMULATE_PREPARES => false,
+        \PDO::MYSQL_ATTR_LOCAL_INFILE => true,
+        \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false
+    ];
+
+    return new \PDO(
+        $dsn,
+        $user,
+        $pass,
+        $opt
     );
 };
 // dispatcher
 $container["dispatcher"] = function ($c) {
     return new CCR\BLAT\Service\Dispatcher\LoggedDispatcher(
         new CCR\BLAT\Service\Dispatcher\ValidatingDispatcher(
-            new CCR\BLAT\Service\Dispatcher\DispatcherInterface()
+            new CCR\BLAT\Service\Dispatcher\SynchronizedDispatcher(
+                new CCR\BLAT\Service\Dispatcher\TransactionalDispatcher(
+                    new CCR\BLAT\Service\Dispatcher\Dispatcher(
+                        new CCR\BLAT\Service\Dispatcher\ClassNameCallableResolver($c)
+                    ),
+                    $c->get("easydb")
+                ),
+                $c->get("easydb")
+            )
         ),
         $c->get("logger")
     );
@@ -36,7 +78,14 @@ $container["logger"] = function () {
 
     return $logger;
 };
-// middleware
+// middlewares
+$container["auth-middleware"] = function ($c) {
+    return new CCR\BLAT\Middleware\AuthMiddleware(
+        $c->get("easydb"),
+        $c->get("latitude"),
+        $c->get("config")->general->site_auth_realm
+    );
+};
 $container["debug-middleware"] = function ($c) {
     return new CCR\BLAT\Middleware\DebugMiddleware();
 };

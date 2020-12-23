@@ -2,6 +2,13 @@
 blat:
     url: 'blat_server:80'
 
+# Credentials for the BLAT database.
+database:
+    host: 'mariadb_server'
+    name: 'blat'
+    user: 'blat'
+    password: '<MYSQL_PASSWORD>'
+
 # Configuration that affects the application as a whole.
 general:
     blat_version: '1.0.0'
