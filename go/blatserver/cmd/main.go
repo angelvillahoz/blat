@@ -6,35 +6,53 @@ import (
 	"net/http"
 	"os"
 
-	"redfly.edu/blatserver"
+	"blat.edu/blatserver"
 )
 
 func main() {
-	aedesAegyptiGenomeFile, _error := os.Open("../assets/aaeg5.2bit")
+	aedesAegyptiGenomeReleaseVersionFile, _error := os.Open("../assets/aaeg5.2bit")
 	if _error != nil {
 		panic(_error)
 	}
-	defer aedesAegyptiGenomeFile.Close()
-	anophelesGambiaeGenomeFile, _error := os.Open("../assets/agam4.2bit")
+	defer aedesAegyptiGenomeReleaseVersionFile.Close()
+	anophelesGambiaeGenomeReleaseVersionFile, _error := os.Open("../assets/agam4.2bit")
 	if _error != nil {
 		panic(_error)
 	}
-	defer anophelesGambiaeGenomeFile.Close()
-	drosophilaMelanogasterGenomeFile, _error := os.Open("../assets/dm6.2bit")
+	defer anophelesGambiaeGenomeReleaseVersionFile.Close()
+	drosophilaMelanogasterGenomeReleaseVersion1File, _error := os.Open("../assets/dm1.2bit")
 	if _error != nil {
 		panic(_error)
 	}
-	defer drosophilaMelanogasterGenomeFile.Close()
-	triboliumCastaneumGenomeFile, _error := os.Open("../assets/tcas5.2.2bit")
+	defer drosophilaMelanogasterGenomeReleaseVersion1File.Close()
+	drosophilaMelanogasterGenomeReleaseVersion2File, _error := os.Open("../assets/dm2.2bit")
 	if _error != nil {
 		panic(_error)
 	}
-	defer triboliumCastaneumGenomeFile.Close()
+	defer drosophilaMelanogasterGenomeReleaseVersion2File.Close()
+	drosophilaMelanogasterGenomeReleaseVersion3File, _error := os.Open("../assets/dm3.2bit")
+	if _error != nil {
+		panic(_error)
+	}
+	defer drosophilaMelanogasterGenomeReleaseVersion3File.Close()
+	drosophilaMelanogasterGenomeReleaseVersion6File, _error := os.Open("../assets/dm6.2bit")
+	if _error != nil {
+		panic(_error)
+	}
+	defer drosophilaMelanogasterGenomeReleaseVersion6File.Close()
+	triboliumCastaneumGenomeReleaseVersionFile, _error := os.Open("../assets/tcas5.2.2bit")
+	if _error != nil {
+		panic(_error)
+	}
+	defer triboliumCastaneumGenomeReleaseVersionFile.Close()
 	fmt.Println("Starting server; hit CTRL+C to exit.")
 	r := blatserver.BuildRoutes(
-		aedesAegyptiGenomeFile,
-		anophelesGambiaeGenomeFile,
-		drosophilaMelanogasterGenomeFile,
-		triboliumCastaneumGenomeFile)
+		aedesAegyptiGenomeReleaseVersionFile,
+		anophelesGambiaeGenomeReleaseVersionFile,
+		drosophilaMelanogasterGenomeReleaseVersion1File,
+		drosophilaMelanogasterGenomeReleaseVersion2File,
+		drosophilaMelanogasterGenomeReleaseVersion3File,
+		drosophilaMelanogasterGenomeReleaseVersion6File,
+		triboliumCastaneumGenomeReleaseVersionFile)
 	log.Fatal(http.ListenAndServe(":80", r))
 }

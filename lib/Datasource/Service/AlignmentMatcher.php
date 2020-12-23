@@ -11,25 +11,41 @@ class AlignmentMatcher
         $this->blatDataSource = $blatDataSource;
     }
     /**
-     * Checks the sequence against the genome database chosen in the BLAT server
-     * with a 95% identity mandatory and returns an array of Alignment objects.
+     * Returns an array of string or Alignment objects from the results 
+     * obtained from the BLAT data source depending on the output format.
      */
     public function get(
         string $speciesShortName,
-        string $sequence
+        string $genomeAssemblyReleaseVersion,
+        string $minimumIdentityPercentage,
+        string $sequence,
+        string $outputFormat
     ): Array {
-        $alignmentsMap = [];
-        $alignments = $this->blatDataSource->query(
+        $objects = $this->blatDataSource->query(
             $speciesShortName,
-            $sequence
+            $genomeAssemblyReleaseVersion,
+            $minimumIdentityPercentage,
+            $sequence,
+            $outputFormat
         );
-        foreach ( $alignments as $coordinate => $alignment ) {
-            if ( (isset($alignmentsMap[$coordinate]) === false) ||
-                ($alignmentsMap[$coordinate]->score < $alignment->score) ) {
-                $alignmentsMap[$coordinate] = $alignment;
-            }
+        $objectResults = [];
+        switch ($outputFormat) {
+            case "blast9":
+                foreach ($objects as $objectResult ) {
+                    $objectResults[] = $objectResult;
+                }
+                break;
+            case "plsx":
+                foreach ( $objects as $coordinate => $alignment ) {
+                    if ( (isset($objectResults[$coordinate]) === false) ||
+                        ($objectResults[$coordinate]->score < $alignment->score) ) {
+                            $objectResults[$coordinate] = $alignment;
+                    }
+                }
+                break;
+            default:
         }
 
-        return $alignmentsMap;
+        return $objectResults;
     }
 }

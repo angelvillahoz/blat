@@ -1,4 +1,4 @@
-module redfly.edu/blatserver
+module blat.edu/blatserver
 
 go 1.15
 

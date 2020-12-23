@@ -12,13 +12,21 @@ class GetAlignmentList implements QueryInterface
     {
         $parsedBody = $serverRequestInterface->getParsedBody();
         if ( isset($parsedBody["speciesShortName"]) &&
+            isset($parsedBody["genomeAssemblyReleaseVersion"]) &&
+            isset($parsedBody["minimumIdentityPercentage"]) &&
             isset($parsedBody["sequence"]) ) {
             $speciesShortName = $parsedBody["speciesShortName"];
+            $genomeAssemblyReleaseVersion = $parsedBody["genomeAssemblyReleaseVersion"];
+            $minimumIdentityPercentage = $parsedBody["minimumIdentityPercentage"];
             $sequence = $parsedBody["sequence"];
+            $outputFormat = "blast9";
 
             return new self(
                 $speciesShortName,
-                $sequence
+                $genomeAssemblyReleaseVersion,
+                $minimumIdentityPercentage,
+                $sequence,
+                $outputFormat
             );
         }
 
@@ -26,14 +34,23 @@ class GetAlignmentList implements QueryInterface
     }
 
     private $speciesShortName;
+    private $genomeAssemblyReleaseVersion;
+    private $minimumIdentityPercentage;
     private $sequence;
+    private $outputFormat;
 
     public function __construct(
         string $speciesShortName,
-        string $sequence
+        string $genomeAssemblyReleaseVersion,
+        string $minimumIdentityPercentage,
+        string $sequence,
+        string $outputFormat
     ) {
         $this->speciesShortName = $speciesShortName;
+        $this->genomeAssemblyReleaseVersion = $genomeAssemblyReleaseVersion;
+        $this->minimumIdentityPercentage = $minimumIdentityPercentage;
         $this->sequence = $sequence;
+        $this->outputFormat = $outputFormat;
     }
 
     public function getSpeciesShortName(): string
@@ -41,9 +58,24 @@ class GetAlignmentList implements QueryInterface
         return $this->speciesShortName;
     }
 
+    public function getGenomeAssemblyReleaseVersion(): string
+    {
+        return $this->genomeAssemblyReleaseVersion;
+    }
+
+    public function getMinimumIdentityPercentage(): string
+    {
+        return $this->minimumIdentityPercentage;
+    }
+
     public function getSequence(): string
     {
         return $this->sequence;
+    }
+
+    public function getOutputFormat(): string
+    {
+        return $this->outputFormat;
     }
 
     public function jsonSerialize(): array

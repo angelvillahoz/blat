@@ -8,25 +8,41 @@ use CCR\BLAT\Service\Message\QueryResult;
 class GetAlignmentListHandler
 {
     private $alignmentMatcher;
+
     public function __construct(AlignmentMatcher $alignmentMatcher) {
         $this->alignmentMatcher = $alignmentMatcher;
     }
+
     public function __invoke(GetAlignmentList $getAlignmentList): QueryResult
     {
         if ( ($getAlignmentList->getSpeciesShortName() !== "") &&
-            ($getAlignmentList->getSequence() !== "") ) {
+            ($getAlignmentList->getGenomeAssemblyReleaseVersion() !== "") &&
+            ($getAlignmentList->getMinimumIdentityPercentage() !== "") &&
+            ($getAlignmentList->getSequence() !== "") &&
+            ($getAlignmentList->getOutputFormat() !== "") ) {
             $alignmentList = $this->alignmentMatcher->get(
                 $getAlignmentList->getSpeciesShortName(),
-                $getAlignmentList->getSequence()
+                $getAlignmentList->getGenomeAssemblyReleaseVersion(),
+                $getAlignmentList->getMinimumIdentityPercentage(),
+                $getAlignmentList->getSequence(),
+                $getAlignmentList->getOutputFormat()
             );
-            $coordinates = array();
-            foreach ( $alignmentList as $rawAlignment ) {
-                $alignment = array(
-                    "chromosome"    => $rawAlignment->chromosomeName,
-                    "end"           => $rawAlignment->endCoordinate,
-                    "start"         => $rawAlignment->startCoordinate
-                );
-                $coordinates[] = $alignment;
+            $coordinates = array();            
+            switch ($getAlignmentList->getOutputFormat()) {
+                case "blast9":
+                    $coordinates = $alignmentList;
+                    break;
+                case "plsx":
+                    foreach ( $alignmentList as $rawAlignment ) {
+                        $alignment = array(
+                            "chromosome"    => $rawAlignment->chromosomeName,
+                            "end"           => $rawAlignment->endCoordinate,
+                            "start"         => $rawAlignment->startCoordinate
+                        );
+                        $coordinates[] = $alignment;
+                    }
+                    break;
+                default:
             }
         }
 

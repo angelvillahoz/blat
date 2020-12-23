@@ -25,19 +25,24 @@ class BlatDataSource
     }
     /**
      * Queries the BLAT endpoint using a FASTA file and returns the results in
-     * PSLX format.
-     * See http://genome.ucsc.edu/FAQ/FAQformat.html#format2 for details on the
-     * PSLX file format.
+     * BLAST9 format.
      * @param string $speciesShortName The species short name.
+     * @param string $genomeAssemblyReleaseVersion The genome assembly release version.
+     * @param string $minimumIdentityPercentage The minimum identity percentage.
      * @param string $fasta The FASTA file URI.
+     * @param string $outputFormat The output format.
+     * 
      * @return iterable The alignments returned from the query.
      */
     public function batchQuery(
         string $speciesShortName,
-        string $fastaFile
+        string $genomeAssemblyReleaseVersion,
+        string $minimumIdentityPercentage,
+        string $fastaFile,
+        string $outputFormat
     ): iterable {
         // Making a multipart/form-data request
-        $pslxStreamInterface = $this->client->request(
+        $streamInterface = $this->client->request(
             "POST",
             "",
             [
@@ -47,28 +52,52 @@ class BlatDataSource
                         "contents" => $speciesShortName,
                     ],
                     [
+                        "name"     => "genomeAssemblyReleaseVersion",
+                        "contents" => $genomeAssemblyReleaseVersion,
+                    ],
+                    [
+                        "name"     => "minimumIdentityPercentage",
+                        "contents" => $minimumIdentityPercentage,
+                    ],
+                    [
                         "name"     => "input",
                         "contents" => fopen($fastaFile, "r"),
                         "filename" => "input.fa"
                     ],
+                    [
+                        "name"     => "outputFormat",
+                        "contents" => $outputFormat,
+                    ]
                 ]
             ]
         )->getBody();
 
-        return $this->parsePslxStreamInterface($pslxStreamInterface);
+        switch($outputFormat) {
+            case "blast9":
+                return $this->parseBlast9StreamInterface($streamInterface);
+                break;
+            case "pslx":
+                return $this->parsePslxStreamInterface($streamInterface);
+                break;
+            default:
+        }
     }
     /**
      * Queries the BLAT endpoint with a single sequence and returns the results
-     * in PSLX format.
-     * See http://genome.ucsc.edu/FAQ/FAQformat.html#format2 for details on the
-     * PSLX file format.
+     * in BLAST9 format.
      * @param string $speciesShortName The species short name.
+     * @param string $genomeAssemblyReleaseVersion The genome assembly release version.
+     * @param string $minimumIdentityPercentage The minimum identity percentage.
      * @param string $sequence The nucleic acid sequence.
+     * @param string $outputFormat The output format.
      * @return iterable The alignments returned from the query.
      */
     public function query(
         string $speciesShortName,
-        string $sequence
+        string $genomeAssemblyReleaseVersion,        
+        string $minimumIdentityPercentage,
+        string $sequence,
+        string $outputFormat
     ): iterable {
         $fastaFile = tmpfile();
         if ( $fastaFile === false ) {
@@ -79,31 +108,59 @@ class BlatDataSource
             ">query" . PHP_EOL . $sequence . PHP_EOL
         );
         // Making a multipart/form-data request
-        $pslxStreamInterface = $this->client->request(
+        $streamInterface = $this->client->request(
             "POST",
             "",
             [
                 "multipart" => [
                     [
                         "name"     => "speciesShortName",
-                        "contents" => $speciesShortName,
+                        "contents" => $speciesShortName
                     ],
+                    [
+                        "name"     => "genomeAssemblyReleaseVersion",
+                        "contents" => $genomeAssemblyReleaseVersion
+                    ],
+                    [
+                        "name"     => "minimumIdentityPercentage",
+                        "contents" => $minimumIdentityPercentage
+                    ],                    
                     [
                         "name"     => "input",
                         "contents" => $fastaFile,
                         "filename" => "input.fa"
                     ],
+                    [
+                        "name"     => "outputFormat",
+                        "contents" => $outputFormat
+                    ]
                 ]
             ]
         )->getBody();
 
-        return $this->parsePslxStreamInterface($pslxStreamInterface);
+        switch($outputFormat) {
+            case "blast9":
+                return $this->parseBlast9StreamInterface($streamInterface);
+                break;
+            case "pslx":
+                return $this->parsePslxStreamInterface($streamInterface);
+                break;
+            default:
+        }
     }
-    private function parsePslxStreamInterface(StreamInterface $pslxStreamInterface): iterable
+    private function parseBlast9StreamInterface(StreamInterface $streamInterface): iterable
     {
-        $pslxStream = $pslxStreamInterface->detach();
+        $blast9Stream = $streamInterface->detach();
+        if ( $blast9Stream === null ) {
+            throw new RuntimeException("Failed to open the BLAST9 stream.");
+        }
+        yield stream_get_contents($blast9Stream);
+    }    
+    private function parsePslxStreamInterface(StreamInterface $streamInterface): iterable
+    {
+        $pslxStream = $streamInterface->detach();
         if ( $pslxStream === null ) {
-            throw new RuntimeException("Failed to open PSLX stream.");
+            throw new RuntimeException("Failed to open the PSLX stream.");
         }
         $reader = Reader::createFromStream($pslxStream)
             ->setDelimiter("\t");

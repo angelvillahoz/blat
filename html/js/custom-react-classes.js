@@ -25,12 +25,40 @@ class SpeciesScientificNameSelector extends React.Component {
   }
 }
 
+class GenomeAssemblyReleaseVersionSelector extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      genomeAssemblyReleaseVersion: 'dm6',
+    };
+  };
+  handleChange = e => {
+     this.setState({genomeAssemblyReleaseVersion:e.target.value});
+  };
+  render() {
+    return (
+      <div className="GenomeAssemblyReleaseVersionSelector">
+      <select 
+        value={this.state.genomeAssemblyReleaseVersion} 
+        onChange={this.handleChange} 
+      >
+        <option value="dm1">dm1</option>
+        <option value="dm2">dm2</option>
+        <option value="dm3">dm3</option>
+        <option value="dm6">dm6</option>
+      </select>
+      </div>        
+    );
+  }
+}
+
 class BlatForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       speciesShortName: 'dmel',
-      identityPercentage: '95',
+      genomeAssemblyReleaseVersion: 'dm6',
+      minimumIdentityPercentage: '95',
       sequence: '',
     };
   };
@@ -58,14 +86,17 @@ class BlatForm extends React.Component {
           <form>
             <label>Species Scientific Name:&nbsp;</label>
             <SpeciesScientificNameSelector name="SpeciesScientificNameSelector" />
+            <br />
+            <label>Genome Assembly Release Version:&nbsp;</label>
+            <GenomeAssemblyReleaseVersionSelector name="GenomeAssemblyReleaseVersionSelector" />
             <br />            
             <label>Identity Percentage:&nbsp;</label>
             <br />            
             <input type="text" 
-                   id="identityPercentageId"
-                   name="identityPercentage"
-                   value={this.state.identityPercentage}
-                   onChange={e => this.setState({ identityPercentage: e.target.value })}/>
+                   id="minimumIdentityPercentageId"
+                   name="minimumIdentityPercentage"
+                   value={this.state.minimumIdentityPercentage}
+                   onChange={e => this.setState({ minimumIdentityPercentage: e.target.value })}/>
             <label>%</label><br />
             <br />
             <label>Sequence:&nbsp;</label><br />
