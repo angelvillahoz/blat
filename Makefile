@@ -14,6 +14,10 @@ analyze: vendor
 build: vendor
 	cd ./go/blatserver/assets && sh ./download-external-assets.sh
 
+database-backup:
+	docker build -t mariadb_database_backup ./utilities/mariadb/database-backup/
+	docker run --rm -tv $(PWD)/dumps:/data/dumps --user $$(id -u):$$(id -g) --env-file ./.env --network redfly_default mariadb_database_backup
+
 docker:
 	docker-compose down -v
 	docker-compose build
@@ -35,6 +39,10 @@ php-libraries-reload: composer.json
 	docker run --rm --volume $(PWD):/app --user $$(id -u):$$(id -g) composer --version
 	docker run --rm --volume $(PWD):/app --user $$(id -u):$$(id -g) composer validate
 	docker run --rm --volume $(PWD):/app --user $$(id -u):$$(id -g) composer dump-autoload -o
+
+schema-backup:
+	docker build -t mariadb_schema_backup ./utilities/mariadb/schema-backup/
+	docker run --rm -tv $(PWD)/db:/data/db --user $$(id -u):$$(id -g) --env-file ./.env --network redfly_default mariadb_schema_backup
 
 vendor-install: composer.json
 	[ -f composer.lock ] && rm composer.lock || true

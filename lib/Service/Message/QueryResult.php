@@ -2,7 +2,9 @@
 namespace CCR\BLAT\Service\Message;
 
 // Standard PHP Libraries (SPL)
-use JsonSerializable;
+use JsonSerializable, RuntimeException;
+// Third-party libraries
+use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * Provides a wrapper for a query result. This should be returned by a query
  * handler.
@@ -13,6 +15,25 @@ class QueryResult implements JsonSerializable
     {
         $total = count($results);
         return new self($total, $results);
+    }
+    public static function fromQueryBuilder(QueryBuilder $builder): self
+    {
+        $statement = $builder->execute();
+        if ( is_int($statement) ) {
+            throw new RuntimeException("Failed to fetch the results from the database.");
+        }
+        $results = $statement->fetchAll();
+        $statement = $builder
+            ->select("COUNT(*)")
+            ->setFirstResult(0)
+            ->setMaxResults(PHP_INT_MAX)
+            ->execute();
+        if ( is_int($statement) ) {
+            throw new RuntimeException("Failed to fetch the total count of results.");
+        }
+        $total = $statement->fetchColumn();
+
+        return new self((int)$total, $results);
     }
     /** @var int $total Total query result count. */
     private $total;

@@ -7,12 +7,13 @@ use JsonSerializable, ReflectionClass;
 use League\JsonGuard\Validator;
 // BLAT libraries with namespaces
 use CCR\BLAT\Service\Exception\InvalidMessageException;
-use CCR\BLAT\Service\Message\CommandInterface;
+use CCR\BLAT\Service\Message\{CommandInterface, QueryInterface, QueryResult};
 /**
- * Dispatcher decorator that validates a command before dispatching it.
- * The command is validated against an JSON schema (for more details,
- * see http://json-schema.org) that describes the structure.
- * All commands implement CommandInterface, which extends JsonSerializable.
+ * Dispatcher decorator that validates a command or query before dispatching it.
+ * The command or query is validated against an JSON schema (for more details,
+ * see http://json-schema.org) that describes the structure. All commands and
+ * queries implement CommandInterface and QueryInterface respectively, both of
+ * which extends JsonSerializable.
  * An example of a serialized simple command could look like:
  * {
  *     "id": 2
@@ -28,8 +29,8 @@ use CCR\BLAT\Service\Message\CommandInterface;
  *     },
  *     "required": ["id"]
  * }
- * If the command is valid, the dispatcher proceeds and dispatches the
- * command; otherwise an InvalidMessageException will be thrown.
+ * If the command or query is valid, the dispatcher proceeds and dispatches the
+ * command or query; otherwise an InvalidMessageException will be thrown.
  */
 class ValidatingDispatcher implements DispatcherInterface
 {
@@ -45,6 +46,14 @@ class ValidatingDispatcher implements DispatcherInterface
             throw new InvalidMessageException(get_class($command));
         }
         $this->decorated->send($command);
+    }
+    public function request(QueryInterface $query): QueryResult
+    {
+        if ( $this->isValid($query) === false ) {
+            throw new InvalidMessageException(get_class($query));
+        }
+
+        return $this->decorated->request($query);
     }
     private function isValid(JsonSerializable $message): bool
     {

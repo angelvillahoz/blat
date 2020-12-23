@@ -2,10 +2,12 @@
 namespace CCR\BLAT\Service\Dispatcher;
 
 // BLAT libraries with namespaces
-use CCR\BLAT\Service\Message\{BatchCommand, CommandInterface};
+use CCR\BLAT\Service\Message\{BatchCommand, CommandInterface, QueryInterface, QueryResult};
 /**
  * Dispatcher decorator that handles a batched command. Each command in the
  * batch is sent to the next decorated dispatcher individually.
+ * Note that only commands can be batched; queries are punted directly to the
+ * decorated dispatcher.
  */
 class BatchedDispatcher implements DispatcherInterface
 {
@@ -24,5 +26,9 @@ class BatchedDispatcher implements DispatcherInterface
         } else {
             $this->decorated->send($command);
         }
+    }
+    public function request(QueryInterface $query): QueryResult
+    {
+        return $this->decorated->request($query);
     }
 }

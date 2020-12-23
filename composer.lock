@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36873cd22aa7e844274a6e675882eb81",
+    "content-hash": "0cb9630a173b43a6ae3860a42d8cdfde",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -41,6 +41,311 @@
             },
             "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "doctrine/cache",
+            "version": "1.10.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/cache.git",
+                "reference": "13e3381b25847283a91948d04640543941309727"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/13e3381b25847283a91948d04640543941309727",
+                "reference": "13e3381b25847283a91948d04640543941309727",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1 || ^8.0"
+            },
+            "conflict": {
+                "doctrine/common": ">2.2,<2.4"
+            },
+            "require-dev": {
+                "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/coding-standard": "^6.0",
+                "mongodb/mongodb": "^1.1",
+                "phpunit/phpunit": "^7.0",
+                "predis/predis": "~1.0"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "PHP Doctrine Cache library is a popular cache implementation that supports many different drivers such as redis, memcache, apc, mongodb and others.",
+            "homepage": "https://www.doctrine-project.org/projects/cache.html",
+            "keywords": [
+                "abstraction",
+                "apcu",
+                "cache",
+                "caching",
+                "couchdb",
+                "memcached",
+                "php",
+                "redis",
+                "xcache"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/cache/issues",
+                "source": "https://github.com/doctrine/cache/tree/1.10.x"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-07-07T18:54:01+00:00"
+        },
+        {
+            "name": "doctrine/dbal",
+            "version": "2.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "c6d37b4c42aaa3c3ee175f05eca68056f4185646"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/c6d37b4c42aaa3c3ee175f05eca68056f4185646",
+                "reference": "c6d37b4c42aaa3c3ee175f05eca68056f4185646",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "^1.0",
+                "doctrine/event-manager": "^1.0",
+                "ext-pdo": "*",
+                "php": "^7.3 || ^8"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^8.1",
+                "jetbrains/phpstorm-stubs": "^2019.1",
+                "phpstan/phpstan": "^0.12.40",
+                "phpunit/phpunit": "^9.4",
+                "psalm/plugin-phpunit": "^0.10.0",
+                "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
+                "vimeo/psalm": "^3.17.2"
+            },
+            "suggest": {
+                "symfony/console": "For helpful console commands such as SQL execution and import of files."
+            },
+            "bin": [
+                "bin/doctrine-dbal"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\DBAL\\": "lib/Doctrine/DBAL"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                }
+            ],
+            "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
+            "homepage": "https://www.doctrine-project.org/projects/dbal.html",
+            "keywords": [
+                "abstraction",
+                "database",
+                "db2",
+                "dbal",
+                "mariadb",
+                "mssql",
+                "mysql",
+                "oci8",
+                "oracle",
+                "pdo",
+                "pgsql",
+                "postgresql",
+                "queryobject",
+                "sasql",
+                "sql",
+                "sqlanywhere",
+                "sqlite",
+                "sqlserver",
+                "sqlsrv"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/dbal/issues",
+                "source": "https://github.com/doctrine/dbal/tree/2.12.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fdbal",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-22T17:26:24+00:00"
+        },
+        {
+            "name": "doctrine/event-manager",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/event-manager.git",
+                "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/41370af6a30faa9dc0368c4a6814d596e81aba7f",
+                "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "conflict": {
+                "doctrine/common": "<2.9@dev"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^6.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\": "lib/Doctrine/Common"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                },
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com"
+                }
+            ],
+            "description": "The Doctrine Event Manager is a simple PHP event system that was built to be used with the various Doctrine projects.",
+            "homepage": "https://www.doctrine-project.org/projects/event-manager.html",
+            "keywords": [
+                "event",
+                "event dispatcher",
+                "event manager",
+                "event system",
+                "events"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/event-manager/issues",
+                "source": "https://github.com/doctrine/event-manager/tree/1.1.x"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fevent-manager",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-05-29T18:28:51+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -273,6 +578,55 @@
                 "source": "https://github.com/guzzle/psr7/tree/1.7.0"
             },
             "time": "2020-09-30T07:37:11+00:00"
+        },
+        {
+            "name": "latitude/latitude",
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shadowhand/latitude.git",
+                "reference": "d52d5a79ffb6dd1bc914f0b33abbb5d6562c1616"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shadowhand/latitude/zipball/d52d5a79ffb6dd1bc914f0b33abbb5d6562c1616",
+                "reference": "d52d5a79ffb6dd1bc914f0b33abbb5d6562c1616",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "eloquent/liberator": "^2.0",
+                "phpunit/phpunit": "^5.7",
+                "spatie/7to5": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Latitude\\QueryBuilder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Woody Gilk",
+                    "email": "woody.gilk@gmail.com",
+                    "homepage": "https://github.com/shadowhand"
+                }
+            ],
+            "description": "A SQL query builder with zero dependencies",
+            "support": {
+                "issues": "https://github.com/shadowhand/latitude/issues",
+                "source": "https://github.com/shadowhand/latitude/tree/master"
+            },
+            "time": "2017-12-13T15:50:14+00:00"
         },
         {
             "name": "league/csv",
@@ -562,6 +916,118 @@
                 "source": "https://github.com/nikic/FastRoute/tree/master"
             },
             "time": "2018-02-13T20:26:39+00:00"
+        },
+        {
+            "name": "paragonie/corner",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/corner.git",
+                "reference": "f222adc1da32547e20a3c5007f4a711b0cf633d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/corner/zipball/f222adc1da32547e20a3c5007f4a711b0cf633d0",
+                "reference": "f222adc1da32547e20a3c5007f4a711b0cf633d0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7",
+                "psalm/plugin-phpunit": "<1",
+                "vimeo/psalm": "^3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ParagonIE\\Corner\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "ISC"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com"
+                }
+            ],
+            "description": "Generic PHP Exceptions and Errors, made user-friendly.",
+            "support": {
+                "issues": "https://github.com/paragonie/corner/issues",
+                "source": "https://github.com/paragonie/corner/tree/v2.0.1"
+            },
+            "time": "2020-01-20T00:57:57+00:00"
+        },
+        {
+            "name": "paragonie/easydb",
+            "version": "v2.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/easydb.git",
+                "reference": "38cfac4bbd96960628ca3237ed98f3f344ffdd7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/easydb/zipball/38cfac4bbd96960628ca3237ed98f3f344ffdd7b",
+                "reference": "38cfac4bbd96960628ca3237ed98f3f344ffdd7b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "paragonie/corner": "^1|^2",
+                "php": "^7|^8"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6|^7",
+                "psalm/plugin-phpunit": "<1",
+                "squizlabs/php_codesniffer": "^3",
+                "vimeo/psalm": "^3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ParagonIE\\EasyDB\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Scott Arciszewski",
+                    "email": "scott@paragonie.com",
+                    "homepage": "https://paragonie.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Woody Gilk",
+                    "homepage": "https://github.com/shadowhand",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "SignpostMarv",
+                    "homepage": "https://github.com/SignpostMarv",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "Easy-to-use database abstraction",
+            "keywords": [
+                "database",
+                "pdo",
+                "security",
+                "sql"
+            ],
+            "support": {
+                "email": "info@paragonie.com",
+                "issues": "https://github.com/paragonie/easydb/issues",
+                "source": "https://github.com/paragonie/easydb"
+            },
+            "time": "2020-01-20T01:06:56+00:00"
         },
         {
             "name": "pimple/pimple",
