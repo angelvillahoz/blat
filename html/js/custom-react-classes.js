@@ -1,67 +1,52 @@
-class SpeciesScientificNameSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      speciesShortName: 'dmel',
-    };
-  };
-  handleChange = e => {
-     this.setState({speciesShortName:e.target.value});
-  };
-  render() {
-    return (
-      <div className="SpeciesScientificNameSelector">
-      <select 
-        value={this.state.speciesShortName} 
-        onChange={this.handleChange} 
-      >
-        <option value="aaeg">Aedes aegypti (aaeg)</option>
-        <option value="agam">Anopheles gambiae (agam)</option>
-        <option value="dmel">Drosophila melanogaster (dmel)</option>
-        <option value="tcas">Tribolium castaneum (tcas)</option>
-      </select>
-      </div>        
-    );
-  }
-}
-
-class GenomeAssemblyReleaseVersionSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      genomeAssemblyReleaseVersion: 'dm6',
-    };
-  };
-  handleChange = e => {
-     this.setState({genomeAssemblyReleaseVersion:e.target.value});
-  };
-  render() {
-    return (
-      <div className="GenomeAssemblyReleaseVersionSelector">
-      <select 
-        value={this.state.genomeAssemblyReleaseVersion} 
-        onChange={this.handleChange} 
-      >
-        <option value="dm1">dm1</option>
-        <option value="dm2">dm2</option>
-        <option value="dm3">dm3</option>
-        <option value="dm6">dm6</option>
-      </select>
-      </div>        
-    );
-  }
-}
-
 class BlatForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      speciesShortName: 'dmel',
-      genomeAssemblyReleaseVersion: 'dm6',
+      speciesScientificNames: [],
+      selectedSpeciesScientificName: 'Drosophila melanogaster (dmel)',
+      genomeAssemblyReleaseVersions: [],
+      selectedGenomeAssemblyReleaseVersion: 'dm6',
       minimumIdentityPercentage: '95',
-      sequence: '',
+      sequence: 'GCCGGTTAGTGGTCCAAATAgattttttgccaccgcgtcggcggcgaagaactgcagacgtcttcaaaatcgtgacccggacccgggtccgccacacgcaccggggtacggccagtgtttccgtgtgtgtgcccccaattgaaaaacagaccgcagcagccgtcgcagctgcatttgctgcaaaaaaccttgcccaactattccgctcaccaccattttccacgaattcagcgcaaatgatgcacagtagacagtatgaacgaaatcaggtctggaatcacacggaaggcgccgaaaatataccacaaagccgcgaaatcaataggggaagttatcttcacgtcactcttttgccactaataattctcaactaaaaaaaaaaaaaacaaacaattgaaataaatatttaaacaaaaactttctttaaggaaacggtaatattataacatttaaagagtcattatgaaagatagaaatacactgcagcgcaatccgcccctgatttttgttgagggccgtggtgtgtctgcccttcaagcgtcgatccgtagaattcttgcgatcgtcttatggtttatgtgtcaccagaagcaccaccaacaccaccaccgtggtttgctgaggtcagcggtggttcagcttgtagacacgacacgagaaacaaaagcttctgtcatcgcagcgggtggcttttgtggaggtcagcaaaaagtgcgaaacgaaactcggtacagcgacctttggctggctccgatttggtttcggattaacgcagactctgatctttataaaattactcatgagccgcagctatctcacatttaatcacgattccggcgactgaaatgcgtaagctgcctaagaaaaaactcattgaattaaaatcttaatattattcacaacacaggtgtggttttgtatggcaaagaatcaaatacattttttgactataattgatatcttacaactctttttttttatttatttttgaataacccttgagctctgcaaaattatgtcaggcttgtcaaaaagcaaaaaaaaaaaaagcaatgcaaaggtgttaaaaaatatgtttagtaattattggcatattgccaatgtaatcaaatattttccataacctacattcaagtatatttaccgtgccctttttgtatttacacaagaaatgtgaaagcaataaacatcgatgtgtatacggctttttggattttatatatttaaagttaatttattgtgcatttgcattttcagatttcgccgatagagctttcagcacgcaatttgacccgtcagttaagtgattcctgtttagatactagtaacgagctgatgcacagaaaaaaatgccaagtgttatgagaactgctattcaaatatgcataaaacaaattatttacaaaaatcattattataataatgaaacaatatttacgagtagtactttttctacgatgtaaaacctttagtaatcagaatgttttggcatcacactcatcaattaatatttccagcgttgcaaacccgtcatgcgatggagttggccaaagtgcaggacatcagtttgctaggAGCCACCGATGAAACACGAT',
     };
+    this.changeSpeciesScientificName = this.changeSpeciesScientificName.bind(this);
+    this.changeGenomeAssemblyReleaseVersion = this.changeGenomeAssemblyReleaseVersion.bind(this);
   };
+
+  componentDidMount() {
+    this.setState({
+      speciesScientificNames: [
+        { name: 'Aedes aegypti (aaeg)', genomeAssemblyReleaseVersions: 
+          [ { name: 'aaeg5' } ]
+        },
+        { name: 'Anopheles gambiae (agam)', genomeAssemblyReleaseVersions:
+          [ { name: 'agam4' } ]
+        },
+        { name: 'Drosophila melanogaster (dmel)', genomeAssemblyReleaseVersions:
+          [ { name: 'dm1'}, 
+            { name: 'dm2'},
+            { name: 'dm3'},
+            { name: 'dm6'} ] },
+        { name: 'Tribolium castaneum (tcas)', genomeAssemblyReleaseVersions:
+          [ { name: 'tcas5.2' } ] } 
+      ],
+      genomeAssemblyReleaseVersions: [
+        { name: 'dm1'}, 
+        { name: 'dm2'},
+        { name: 'dm3'},
+        { name: 'dm6'}]
+    });
+  }
+
+  changeSpeciesScientificName(event) {
+		this.setState({ selectedSpeciesScientificName: event.target.value });
+		this.setState({ genomeAssemblyReleaseVersions: this.state.speciesScientificNames.find(speciesScientificName => speciesScientificName.name === event.target.value).genomeAssemblyReleaseVersions });
+	}
+
+  changeGenomeAssemblyReleaseVersion(event) {
+		this.setState({ selectedGenomeAssemblyReleaseVersion: event.target.value });
+	}
+
   handleFormSubmit = e => {
     e.preventDefault();
     axios({
@@ -70,14 +55,14 @@ class BlatForm extends React.Component {
       method: 'post',
       url: API_PATH + '/search'
     })
-    .then(function (response) {
-      console.log(response)
-      //this.setState({
-      //  success: true
-      //})
+    .then(result => {
+      this.setState({
+        list: result.data.results[0]
+      })
     })
     .catch(error => this.setState({ error: error.message }));
-  };    
+  };
+
   render() {
     return ( 
       <div className="BlatForm">
@@ -85,13 +70,21 @@ class BlatForm extends React.Component {
         <div>
           <form>
             <label>Species Scientific Name:&nbsp;</label>
-            <SpeciesScientificNameSelector name="SpeciesScientificNameSelector" />
+            <select placeholder="speciesScientificNamesSelector" value={this.state.selectedSpeciesScientificName} onChange={this.changeSpeciesScientificName}>
+              {this.state.speciesScientificNames.map((e, key) => {
+							  return <option key="{key}">{e.name}</option>;
+						  })}
+					  </select><br />
             <br />
             <label>Genome Assembly Release Version:&nbsp;</label>
-            <GenomeAssemblyReleaseVersionSelector name="GenomeAssemblyReleaseVersionSelector" />
-            <br />            
+            <select placeholder="genomeAssemblyReleaseVersionsSelector" value={this.state.selectedGenomeAssemblyReleaseVersion} onChange={this.changeGenomeAssemblyReleaseVersion}>
+						  {this.state.genomeAssemblyReleaseVersions.map((e, key) => {
+							  return <option key="{key}">{e.name}</option>;
+						  })}
+					  </select><br />
+            <br />
             <label>Identity Percentage:&nbsp;</label>
-            <br />            
+            <br />
             <input type="text" 
                    id="minimumIdentityPercentageId"
                    name="minimumIdentityPercentage"
@@ -110,6 +103,11 @@ class BlatForm extends React.Component {
             <input type="submit"
                    value="Submit"
                    onClick={e => this.handleFormSubmit(e)} />
+            <div>
+              {this.state.list &&
+                <div>{this.state.list}</div>
+              }
+            </div>
           </form>
         </div>
       </div>
