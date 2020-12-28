@@ -30,7 +30,15 @@ class GetAlignmentListHandler
             $coordinates = array();            
             switch ($getAlignmentList->getOutputFormat()) {
                 case "blast9":
-                    $coordinates = $alignmentList;
+                    $coordinates = preg_replace(
+                        "/[\r\n]+/",
+                        "<br />",
+                        preg_replace(
+                            "/[\t]+/",
+                            "&emsp;",
+                            $alignmentList
+                        )
+                    );
                     break;
                 case "plsx":
                     foreach ( $alignmentList as $rawAlignment ) {

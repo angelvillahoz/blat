@@ -11,12 +11,12 @@ class GetAlignmentList implements QueryInterface
     public static function fromRequest(ServerRequestInterface $serverRequestInterface): self
     {
         $parsedBody = $serverRequestInterface->getParsedBody();
-        if ( isset($parsedBody["speciesShortName"]) &&
-            isset($parsedBody["genomeAssemblyReleaseVersion"]) &&
+        if ( isset($parsedBody["selectedSpeciesScientificName"]) &&
+            isset($parsedBody["selectedGenomeAssemblyReleaseVersion"]) &&
             isset($parsedBody["minimumIdentityPercentage"]) &&
             isset($parsedBody["sequence"]) ) {
-            $speciesShortName = $parsedBody["speciesShortName"];
-            $genomeAssemblyReleaseVersion = $parsedBody["genomeAssemblyReleaseVersion"];
+            $speciesShortName = explode(")", explode("(", $parsedBody["selectedSpeciesScientificName"])[1])[0];
+            $genomeAssemblyReleaseVersion = $parsedBody["selectedGenomeAssemblyReleaseVersion"];
             $minimumIdentityPercentage = $parsedBody["minimumIdentityPercentage"];
             $sequence = $parsedBody["sequence"];
             $outputFormat = "blast9";

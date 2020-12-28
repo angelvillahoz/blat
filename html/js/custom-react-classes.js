@@ -7,7 +7,7 @@ class BlatForm extends React.Component {
       genomeAssemblyReleaseVersions: [],
       selectedGenomeAssemblyReleaseVersion: 'dm6',
       minimumIdentityPercentage: '95',
-      sequence: 'GCCGGTTAGTGGTCCAAATAgattttttgccaccgcgtcggcggcgaagaactgcagacgtcttcaaaatcgtgacccggacccgggtccgccacacgcaccggggtacggccagtgtttccgtgtgtgtgcccccaattgaaaaacagaccgcagcagccgtcgcagctgcatttgctgcaaaaaaccttgcccaactattccgctcaccaccattttccacgaattcagcgcaaatgatgcacagtagacagtatgaacgaaatcaggtctggaatcacacggaaggcgccgaaaatataccacaaagccgcgaaatcaataggggaagttatcttcacgtcactcttttgccactaataattctcaactaaaaaaaaaaaaaacaaacaattgaaataaatatttaaacaaaaactttctttaaggaaacggtaatattataacatttaaagagtcattatgaaagatagaaatacactgcagcgcaatccgcccctgatttttgttgagggccgtggtgtgtctgcccttcaagcgtcgatccgtagaattcttgcgatcgtcttatggtttatgtgtcaccagaagcaccaccaacaccaccaccgtggtttgctgaggtcagcggtggttcagcttgtagacacgacacgagaaacaaaagcttctgtcatcgcagcgggtggcttttgtggaggtcagcaaaaagtgcgaaacgaaactcggtacagcgacctttggctggctccgatttggtttcggattaacgcagactctgatctttataaaattactcatgagccgcagctatctcacatttaatcacgattccggcgactgaaatgcgtaagctgcctaagaaaaaactcattgaattaaaatcttaatattattcacaacacaggtgtggttttgtatggcaaagaatcaaatacattttttgactataattgatatcttacaactctttttttttatttatttttgaataacccttgagctctgcaaaattatgtcaggcttgtcaaaaagcaaaaaaaaaaaaagcaatgcaaaggtgttaaaaaatatgtttagtaattattggcatattgccaatgtaatcaaatattttccataacctacattcaagtatatttaccgtgccctttttgtatttacacaagaaatgtgaaagcaataaacatcgatgtgtatacggctttttggattttatatatttaaagttaatttattgtgcatttgcattttcagatttcgccgatagagctttcagcacgcaatttgacccgtcagttaagtgattcctgtttagatactagtaacgagctgatgcacagaaaaaaatgccaagtgttatgagaactgctattcaaatatgcataaaacaaattatttacaaaaatcattattataataatgaaacaatatttacgagtagtactttttctacgatgtaaaacctttagtaatcagaatgttttggcatcacactcatcaattaatatttccagcgttgcaaacccgtcatgcgatggagttggccaaagtgcaggacatcagtttgctaggAGCCACCGATGAAACACGAT',
+      sequence: '',
     };
     this.changeSpeciesScientificName = this.changeSpeciesScientificName.bind(this);
     this.changeGenomeAssemblyReleaseVersion = this.changeGenomeAssemblyReleaseVersion.bind(this);
@@ -23,24 +23,25 @@ class BlatForm extends React.Component {
           [ { name: 'agam4' } ]
         },
         { name: 'Drosophila melanogaster (dmel)', genomeAssemblyReleaseVersions:
-          [ { name: 'dm1'}, 
-            { name: 'dm2'},
+          [ { name: 'dm6'}, 
             { name: 'dm3'},
-            { name: 'dm6'} ] },
+            { name: 'dm2'},
+            { name: 'dm1'} ] },
         { name: 'Tribolium castaneum (tcas)', genomeAssemblyReleaseVersions:
           [ { name: 'tcas5.2' } ] } 
       ],
       genomeAssemblyReleaseVersions: [
-        { name: 'dm1'}, 
-        { name: 'dm2'},
+        { name: 'dm6'}, 
         { name: 'dm3'},
-        { name: 'dm6'}]
+        { name: 'dm2'},
+        { name: 'dm1'}]
     });
   }
 
   changeSpeciesScientificName(event) {
 		this.setState({ selectedSpeciesScientificName: event.target.value });
-		this.setState({ genomeAssemblyReleaseVersions: this.state.speciesScientificNames.find(speciesScientificName => speciesScientificName.name === event.target.value).genomeAssemblyReleaseVersions });
+    this.setState({ genomeAssemblyReleaseVersions: this.state.speciesScientificNames.find(speciesScientificName => speciesScientificName.name === event.target.value).genomeAssemblyReleaseVersions });
+    this.setState({ selectedGenomeAssemblyReleaseVersion: this.state.speciesScientificNames.find(speciesScientificName => speciesScientificName.name === event.target.value).genomeAssemblyReleaseVersions[0]['name'] });
 	}
 
   changeGenomeAssemblyReleaseVersion(event) {
@@ -58,7 +59,8 @@ class BlatForm extends React.Component {
     .then(result => {
       this.setState({
         list: result.data.results[0]
-      })
+      });
+      document.getElementById('outputId').innerHTML = this.state.list;
     })
     .catch(error => this.setState({ error: error.message }));
   };
@@ -102,11 +104,10 @@ class BlatForm extends React.Component {
             <br />
             <input type="submit"
                    value="Submit"
-                   onClick={e => this.handleFormSubmit(e)} />
-            <div>
-              {this.state.list &&
-                <div>{this.state.list}</div>
-              }
+                   onClick={e => this.handleFormSubmit(e)} /><br />
+            <br />
+            <label>Results:&nbsp;</label><br />
+            <div id="outputId">
             </div>
           </form>
         </div>
