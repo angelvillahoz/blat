@@ -1,3 +1,18 @@
+class Spinner extends React.Component {
+  render() {
+    return (
+      <img
+        src='./images/spinner.gif'
+        style={{
+          margin: 'auto',
+          display: 'block'
+        }}
+        alt='Checking any sequence match...'
+      />
+    );
+  }
+}
+
 class BlatForm extends React.Component {
   constructor(props) {
     super(props);
@@ -8,6 +23,9 @@ class BlatForm extends React.Component {
       selectedGenomeAssemblyReleaseVersion: 'dm6',
       minimumIdentityPercentage: '95',
       sequence: '',
+      loading: false,
+      error: false,
+      errorMessage: ''
     };
     this.changeSpeciesScientificName = this.changeSpeciesScientificName.bind(this);
     this.changeGenomeAssemblyReleaseVersion = this.changeGenomeAssemblyReleaseVersion.bind(this);
@@ -49,6 +67,9 @@ class BlatForm extends React.Component {
 	}
 
   handleFormSubmit = e => {
+    this.setState({
+      loading: true
+    });    
     e.preventDefault();
     axios({
       data: this.state,
@@ -58,14 +79,26 @@ class BlatForm extends React.Component {
     })
     .then(result => {
       this.setState({
-        list: result.data.results[0]
-      });
-      document.getElementById('outputId').innerHTML = this.state.list;
+        list: result.data.results[0],
+        loading: false
+      });      
     })
     .catch(error => this.setState({ error: error.message }));
   };
 
   render() {
+    let output;
+
+    if (this.state.list === null || this.state.loading) {
+      output = <Spinner />;
+    } else {
+      if (this.state.list !== null) {
+        output = <div dangerouslySetInnerHTML={{__html: this.state.list}}></div>
+      } else {
+        output = <p>No sequence match</p>;
+      }
+    }
+
     return ( 
       <div className="BlatForm">
         <p>BLAT server</p>
@@ -107,8 +140,7 @@ class BlatForm extends React.Component {
                    onClick={e => this.handleFormSubmit(e)} /><br />
             <br />
             <label>Results:&nbsp;</label><br />
-            <div id="outputId">
-            </div>
+            <div id="outputId">{output}</div>
           </form>
         </div>
       </div>
