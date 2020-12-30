@@ -118,12 +118,12 @@ class BlatForm extends React.Component {
         if (this.state.list !== '') {
           output = <div dangerouslySetInnerHTML={{__html: this.state.list}}></div>
         } else {
-          if (!this.state.errors) {
+          if (this.state.errors == '') {
             output = <p>Not any match</p>;
           } else {
             output = <p></p>;
           }
-        }
+        } 
       } else {
         output = <p>Case not covered</p>;
       }
@@ -153,6 +153,7 @@ class BlatForm extends React.Component {
             <input type="text"
                    id="minimumIdentityPercentageId"
                    name="minimumIdentityPercentage"
+                   size="1"
                    required
                    title="Only between 0.01% as minimum and 100.00% as maximum with two digits after the decimal point"
                    pattern="^([0-9]\.[0-9][0-9]{0,1}|[1-9][0-9]{0,1}|[1-9][0-9]\.[0-9][0-9]{0,1}|100|100\.0{1,2})$"
