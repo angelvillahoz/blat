@@ -13,6 +13,19 @@ class Spinner extends React.Component {
   }
 }
 
+function validate(sequence) {
+  const errorsList = [];
+  if (sequence.length < 20) {
+    errorsList.push('The sequence is too short');
+  } else {
+    if (sequence.match(/[^ACGTacgt]/gm)) {
+      errorsList.push('The sequence has invalid character(s): ' + sequence.match(/[^ACGTacgt]/gm));
+    }
+  }
+
+  return errorsList;
+}
+
 class BlatForm extends React.Component {
   constructor(props) {
     super(props);
@@ -24,8 +37,7 @@ class BlatForm extends React.Component {
       minimumIdentityPercentage: '95',
       sequence: '',
       loading: false,
-      error: false,
-      errorMessage: ''
+      errors: []
     };
     this.changeSpeciesScientificName = this.changeSpeciesScientificName.bind(this);
     this.changeGenomeAssemblyReleaseVersion = this.changeGenomeAssemblyReleaseVersion.bind(this);
@@ -66,11 +78,19 @@ class BlatForm extends React.Component {
 		this.setState({ selectedGenomeAssemblyReleaseVersion: event.target.value });
 	}
 
-  handleFormSubmit = e => {
+  handleSubmit = e => {
+    e.preventDefault();
+    const errors = validate(this.state.sequence);
+    if (errors.length > 0) {
+      this.setState({ errors: errors });
+      this.setState({ list: ''});
+      return;
+    } else {
+      this.setState({ errors: [] });
+    }
     this.setState({
       loading: true
     });    
-    e.preventDefault();
     axios({
       data: this.state,
       headers: { 'content-type': 'application/json' },
@@ -83,12 +103,14 @@ class BlatForm extends React.Component {
         loading: false
       });      
     })
-    .catch(error => this.setState({ error: error.message }));
+    .catch(error => this.setState({ 
+      errors : [error.message],
+      loading: false      
+    }));
   };
 
   render() {
     let output;
-
     if (this.state.list === null || this.state.loading) {
       output = <Spinner />;
     } else {
@@ -98,12 +120,12 @@ class BlatForm extends React.Component {
         output = <p>No sequence match</p>;
       }
     }
-
+    const {errors} = this.state;
     return ( 
       <div className="BlatForm">
         <p>BLAT server</p>
         <div>
-          <form>
+          <form onSubmit={this.handleSubmit}>
             <label>Species Scientific Name:&nbsp;</label>
             <select placeholder="speciesScientificNamesSelector" value={this.state.selectedSpeciesScientificName} onChange={this.changeSpeciesScientificName}>
               {this.state.speciesScientificNames.map((e, key) => {
@@ -118,11 +140,14 @@ class BlatForm extends React.Component {
 						  })}
 					  </select><br />
             <br />
-            <label>Identity Percentage:&nbsp;</label>
+            <label>Minimum Identity Percentage:&nbsp;</label>
             <br />
-            <input type="text" 
+            <input type="text"
                    id="minimumIdentityPercentageId"
                    name="minimumIdentityPercentage"
+                   required
+                   title="Only between 0.01% as minimum and 100.00% as maximum with two digits after the decimal point"
+                   pattern="^([0-9]\.[0-9][0-9]{0,1}|[1-9][0-9]{0,1}|[1-9][0-9]\.[0-9][0-9]{0,1}|100|100\.0{1,2})$"
                    value={this.state.minimumIdentityPercentage}
                    onChange={e => this.setState({ minimumIdentityPercentage: e.target.value })}/>
             <label>%</label><br />
@@ -130,15 +155,18 @@ class BlatForm extends React.Component {
             <label>Sequence:&nbsp;</label><br />
             <textarea id="sequenceId"
                       name="sequence"
-                      rows={10}
-                      cols={100}
+                      required
+                      rows="10"
+                      cols="100"
                       value={this.state.sequence}
                       onChange={e => this.setState({ sequence: e.target.value })}></textarea><br />
             <br />
             <input type="submit"
-                   value="Submit"
-                   onClick={e => this.handleFormSubmit(e)} /><br />
+                   value="Submit" /><br />
             <br />
+            {errors.map(error => (
+              <p key={error}>Error: {error}</p>
+            ))}
             <label>Results:&nbsp;</label><br />
             <div id="outputId">{output}</div>
           </form>
