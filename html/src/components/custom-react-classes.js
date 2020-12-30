@@ -115,9 +115,17 @@ class BlatForm extends React.Component {
       output = <Spinner />;
     } else {
       if (this.state.list !== null) {
-        output = <div dangerouslySetInnerHTML={{__html: this.state.list}}></div>
+        if (this.state.list !== '') {
+          output = <div dangerouslySetInnerHTML={{__html: this.state.list}}></div>
+        } else {
+          if (!this.state.errors) {
+            output = <p>Not any match</p>;
+          } else {
+            output = <p></p>;
+          }
+        }
       } else {
-        output = <p>No sequence match</p>;
+        output = <p>Case not covered</p>;
       }
     }
     const {errors} = this.state;
