@@ -17,7 +17,7 @@ services:
     mariadb_server:
         image: mariadb:10.3
         # 2097152 = 2MB 
-        command: --group_concat_max_len=2097152
+        #command: --group_concat_max_len=2097152
         ports:
             - 3306:3306
         volumes:

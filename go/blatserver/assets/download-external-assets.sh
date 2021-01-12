@@ -4,50 +4,50 @@ set -e;
 
 # The Aedes aegypti species
 #
-wget https://vectorbase.org/common/downloads/Current_Release/AaegyptiLVP_AGWG/fasta/data/VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta
+wget https://vectorbase.org/common/downloads/release-49/AaegyptiLVP_AGWG/fasta/data/VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta
 echo "Standardizing the chromosome names..."
 echo "...AaegL5_1"
-sed -i "/>AaegL5_1/c\>1" VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta
+sed -i "/>AaegL5_1/c\>1" VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta
 echo "...AaegL5_2"
-sed -i "/>AaegL5_2/c\>2" VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta
+sed -i "/>AaegL5_2/c\>2" VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta
 echo "...AaegL5_3"
-sed -i "/>AaegL5_3/c\>3" VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta
+sed -i "/>AaegL5_3/c\>3" VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta
 echo "...AaegL5_MT"
-sed -i "/>AaegL5_MT/c\>MT" VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta
+sed -i "/>AaegL5_MT/c\>MT" VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta
 echo "Filtering the chromosome names..."
-awk '{ if ((NR>1)&&($0~/^>/)) { printf("\n%s", $0); } else if (NR==1) { printf("%s", $0); } else { printf("\t%s", $0); } }' VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta | grep -E -i -w "1|2|3|MT" - | tr "\t" "\n" > skinned_VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta
-rm VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta
+awk '{ if ((NR>1)&&($0~/^>/)) { printf("\n%s", $0); } else if (NR==1) { printf("%s", $0); } else { printf("\t%s", $0); } }' VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta | grep -E -i -w "1|2|3|MT" - | tr "\t" "\n" > skinned_VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta
+rm VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta
 echo "Building up aaeg5.2bit..."
-./faToTwoBit skinned_VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta aaeg5.2bit
-rm skinned_VectorBase-50_AaegyptiLVP_AGWG_Genome.fasta
+./faToTwoBit skinned_VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta aaeg5.2bit
+rm skinned_VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta
 ./twoBitInfo aaeg5.2bit stdout | sort -k2rn > aaeg5_chromosomes_information.txt
 
 # The Anopheles gambiae species
 #
-wget https://vectorbase.org/common/downloads/Current_Release/AgambiaePEST/fasta/data/VectorBase-50_AgambiaePEST_Genome.fasta
+wget https://vectorbase.org/common/downloads/release-49/AgambiaePEST/fasta/data/VectorBase-49_AgambiaePEST_Genome.fasta
 echo "Standardizing the chromosome names..."
 echo "...AgamP4_2L"
-sed -i "/>AgamP4_2L/c\>2L" VectorBase-50_AgambiaePEST_Genome.fasta
+sed -i "/>AgamP4_2L/c\>2L" VectorBase-49_AgambiaePEST_Genome.fasta
 echo "...AgamP4_2R"
-sed -i "/>AgamP4_2R/c\>2R" VectorBase-50_AgambiaePEST_Genome.fasta
+sed -i "/>AgamP4_2R/c\>2R" VectorBase-49_AgambiaePEST_Genome.fasta
 echo "...AgamP4_3L"
-sed -i "/>AgamP4_3L/c\>3L" VectorBase-50_AgambiaePEST_Genome.fasta
+sed -i "/>AgamP4_3L/c\>3L" VectorBase-49_AgambiaePEST_Genome.fasta
 echo "...AgamP4_3R"
-sed -i "/>AgamP4_3R/c\>3R" VectorBase-50_AgambiaePEST_Genome.fasta
+sed -i "/>AgamP4_3R/c\>3R" VectorBase-49_AgambiaePEST_Genome.fasta
 echo "...AgamP4_UNKN"
-sed -i "/>AgamP4_UNKN/c\>UNKN" VectorBase-50_AgambiaePEST_Genome.fasta
+sed -i "/>AgamP4_UNKN/c\>UNKN" VectorBase-49_AgambiaePEST_Genome.fasta
 echo "...AgamP4_X"
-sed -i "/>AgamP4_X/c\>X" VectorBase-50_AgambiaePEST_Genome.fasta
+sed -i "/>AgamP4_X/c\>X" VectorBase-49_AgambiaePEST_Genome.fasta
 echo "...AgamP4_Y_unplaced"
-sed -i "/>AgamP4_Y_unplaced/c\>Y_unplaced" VectorBase-50_AgambiaePEST_Genome.fasta
+sed -i "/>AgamP4_Y_unplaced/c\>Y_unplaced" VectorBase-49_AgambiaePEST_Genome.fasta
 echo "...AgamP4_Mt"
-sed -i "/>AgamP4_Mt/c\>Mt" VectorBase-50_AgambiaePEST_Genome.fasta
+sed -i "/>AgamP4_Mt/c\>Mt" VectorBase-49_AgambiaePEST_Genome.fasta
 echo "Filtering the chromosome names..."
-awk '{ if ((NR>1)&&($0~/^>/)) { printf("\n%s", $0); } else if (NR==1) { printf("%s", $0); } else { printf("\t%s", $0); } }' VectorBase-50_AgambiaePEST_Genome.fasta | grep -E -i -w "2R|3R|2L|UNKN|3L|X|Y_unplaced|Mt" - | tr "\t" "\n" > skinned_VectorBase-50_AgambiaePEST_Genome.fasta
-rm VectorBase-50_AgambiaePEST_Genome.fasta
+awk '{ if ((NR>1)&&($0~/^>/)) { printf("\n%s", $0); } else if (NR==1) { printf("%s", $0); } else { printf("\t%s", $0); } }' VectorBase-49_AgambiaePEST_Genome.fasta | grep -E -i -w "2R|3R|2L|UNKN|3L|X|Y_unplaced|Mt" - | tr "\t" "\n" > skinned_VectorBase-49_AgambiaePEST_Genome.fasta
+rm VectorBase-49_AgambiaePEST_Genome.fasta
 echo "Building up agam4.2bit..."
-./faToTwoBit skinned_VectorBase-50_AgambiaePEST_Genome.fasta agam4.2bit
-rm skinned_VectorBase-50_AgambiaePEST_Genome.fasta
+./faToTwoBit skinned_VectorBase-49_AgambiaePEST_Genome.fasta agam4.2bit
+rm skinned_VectorBase-49_AgambiaePEST_Genome.fasta
 ./twoBitInfo agam4.2bit stdout | sort -k2rn > agam4_chromosomes_information.txt
 
 # The Drosophila melanogaster species
