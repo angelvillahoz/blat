@@ -7,12 +7,15 @@ vendor/
 # Configuration files
 config/settings.yml
 
+# Database SQL files directory
+dumps/
+
 # Log and debugging files
 logs/
 
 # Miscellaneous project files
-*.bak
 .env
+*.bak
 *.sql.gz
 
 # Node modules

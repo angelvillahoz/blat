@@ -162,7 +162,7 @@ func BuildRoutes(
 			defer file.Close()
 			in, _error := ioutil.TempFile(
 				"",
-				"fasta")
+				"input.fasta")
 			if _error != nil {
 				panic(_error)
 			}
@@ -170,7 +170,7 @@ func BuildRoutes(
 			defer os.Remove(in.Name())
 			out, _error := ioutil.TempFile(
 				"",
-				"pslx")
+				"output."+outputFormat)
 			if _error != nil {
 				panic(_error)
 			}

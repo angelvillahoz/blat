@@ -1,2 +1,2 @@
-docker-compose exec blat_server /usr/local/bin/blat -q=dna -minIdentity=100 -out=blast9 /assets/dm6.2bit ./input.fa output.blast9
-docker-compose exec blat_server cat ./output.blast9
+docker-compose exec blat_server /usr/local/bin/blat -minIdentity=95 -out=pslx -q=dna /assets/aaeg5.2bit ./input.fa output.pslx
+docker-compose exec blat_server cat ./output.pslx

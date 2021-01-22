@@ -14,12 +14,13 @@ class GetAlignmentList implements QueryInterface
         if ( isset($parsedBody["selectedSpeciesScientificName"]) &&
             isset($parsedBody["selectedGenomeAssemblyReleaseVersion"]) &&
             isset($parsedBody["minimumIdentityPercentage"]) &&
-            isset($parsedBody["sequence"]) ) {
+            isset($parsedBody["sequence"]) &&
+            isset($parsedBody["selectedOutputFormat"])) {
             $speciesShortName = explode(")", explode("(", $parsedBody["selectedSpeciesScientificName"])[1])[0];
             $genomeAssemblyReleaseVersion = $parsedBody["selectedGenomeAssemblyReleaseVersion"];
             $minimumIdentityPercentage = $parsedBody["minimumIdentityPercentage"];
             $sequence = $parsedBody["sequence"];
-            $outputFormat = "blast9";
+            $outputFormat = $parsedBody["selectedOutputFormat"];
 
             return new self(
                 $speciesShortName,

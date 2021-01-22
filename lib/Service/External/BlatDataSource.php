@@ -138,16 +138,26 @@ class BlatDataSource
             ]
         )->getBody();
 
-        switch($outputFormat) {
-            case "blast9":
-                return $this->parseBlast9StreamInterface($streamInterface);
-                break;
-            case "pslx":
-                return $this->parsePslxStreamInterface($streamInterface);
-                break;
-            default:
-        }
+        //switch($outputFormat) {
+        //    case "blast9":
+        //        return $this->parseBlast9StreamInterface($streamInterface);
+        //        break;
+        //    case "pslx":
+        //        return $this->parsePslxStreamInterface($streamInterface);
+        //        break;
+        //    default:
+        //}
+
+        return $this->parseStreamInterface($streamInterface);
     }
+    private function parseStreamInterface(StreamInterface $streamInterface): iterable
+    {
+        $stream = $streamInterface->detach();
+        if ( $stream === null ) {
+            throw new RuntimeException("Failed to open the stream.");
+        }
+        yield stream_get_contents($stream);
+    }    
     private function parseBlast9StreamInterface(StreamInterface $streamInterface): iterable
     {
         $blast9Stream = $streamInterface->detach();

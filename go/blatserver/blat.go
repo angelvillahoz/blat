@@ -36,30 +36,15 @@ func blat(
 	in string,
 	outputFormat string,
 	out string) {
-	if outputFormat == "blast9" {
-		cmd := exec.Command(
-			"blat",
-			"-minIdentity="+minimumIdentityPercentage,
-			"-out="+outputFormat,
-			"-q=dna",
-			genomeDatabase,
-			in,
-			out)
-		if _error := cmd.Run(); _error != nil {
-			panic(_error)
-		}
-	} else {
-		cmd := exec.Command(
-			"blat",
-			"-minIdentity="+minimumIdentityPercentage,
-			"noHead",
-			"-out="+outputFormat,
-			"-q=dna",
-			genomeDatabase,
-			in,
-			out)
-		if _error := cmd.Run(); _error != nil {
-			panic(_error)
-		}
+	cmd := exec.Command(
+		"blat",
+		"-minIdentity="+minimumIdentityPercentage,
+		"-out="+outputFormat,
+		"-q=dna",
+		genomeDatabase,
+		in,
+		out)
+	if _error := cmd.Run(); _error != nil {
+		panic(_error)
 	}
 }

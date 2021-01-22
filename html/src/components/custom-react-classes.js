@@ -4,8 +4,8 @@ class Spinner extends React.Component {
       <img
         src='./images/spinner.gif'
         style={{
-          margin: 'auto',
-          display: 'block'
+          display: 'block',
+          margin: 'auto'
         }}
         alt='Checking any sequence match...'
       />
@@ -36,11 +36,14 @@ class BlatForm extends React.Component {
       selectedGenomeAssemblyReleaseVersion: 'dm6',
       minimumIdentityPercentage: '95',
       sequence: '',
+      outputFormats: [],
+      selectedOutputFormat: 'pslx',
       loading: false,
       errors: []
     };
     this.changeSpeciesScientificName = this.changeSpeciesScientificName.bind(this);
     this.changeGenomeAssemblyReleaseVersion = this.changeGenomeAssemblyReleaseVersion.bind(this);
+    this.changeOutputFormat = this.changeOutputFormat.bind(this);
   };
 
   componentDidMount() {
@@ -64,7 +67,19 @@ class BlatForm extends React.Component {
         { name: 'dm6'}, 
         { name: 'dm3'},
         { name: 'dm2'},
-        { name: 'dm1'}]
+        { name: 'dm1'}
+      ],
+      outputFormats: [
+        { name: 'axt'},
+        { name: 'blast'},
+        { name: 'blast8'},
+        { name: 'blast9'},
+        { name: 'maf'},
+        { name: 'psl'},
+        { name: 'pslx'},
+        { name: 'sim4'},
+        { name: 'wublast'}
+      ]
     });
   }
 
@@ -78,8 +93,19 @@ class BlatForm extends React.Component {
 		this.setState({ selectedGenomeAssemblyReleaseVersion: event.target.value });
 	}
 
+  changeOutputFormat(event) {
+		this.setState({ selectedOutputFormat: event.target.value });
+	}
+
+  handleClear = e => {
+    this.setState({
+      sequence: ''
+    });    
+  }
+
   handleSubmit = e => {
     e.preventDefault();
+    this.state.sequence = this.state.sequence.replace(/(\r\n|\r|\n)/g, '');
     const errors = validate(this.state.sequence);
     if (errors.length > 0) {
       this.setState({ errors: errors });
@@ -116,7 +142,7 @@ class BlatForm extends React.Component {
     } else {
       if (this.state.list !== null) {
         if (this.state.list !== '') {
-          output = <div dangerouslySetInnerHTML={{__html: this.state.list}}></div>
+          output = <tt><pre><div dangerouslySetInnerHTML={{__html: this.state.list}}></div></pre></tt>
         } else {
           if (this.state.errors == '') {
             output = <p>Not any match</p>;
@@ -170,8 +196,18 @@ class BlatForm extends React.Component {
                       value={this.state.sequence}
                       onChange={e => this.setState({ sequence: e.target.value })}></textarea><br />
             <br />
+            <label>Output Format:&nbsp;</label>
+            <select placeholder="outputFormatsSelector" value={this.state.selectedOutputFormat} onChange={this.changeOutputFormat}>
+						  {this.state.outputFormats.map((e, key) => {
+							  return <option key="{key}">{e.name}</option>;
+						  })}
+					  </select><br />
+            <br />            
             <input type="submit"
-                   value="Submit" /><br />
+                   value="Submit" />&nbsp;&nbsp;&nbsp;
+            <input type="button"
+                   value="Clear"
+                   onClick={this.handleClear} /><br />                   
             <br />
             {errors.map(error => (
               <p key={error}>Error: {error}</p>

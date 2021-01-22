@@ -29,22 +29,25 @@ class AlignmentMatcher
             $outputFormat
         );
         $objectResults = [];
-        switch ($outputFormat) {
-            case "blast9":
-                foreach ($objects as $objectResult ) {
-                    $objectResults[] = $objectResult;
-                }
-                break;
-            case "plsx":
-                foreach ( $objects as $coordinate => $alignment ) {
-                    if ( (isset($objectResults[$coordinate]) === false) ||
-                        ($objectResults[$coordinate]->score < $alignment->score) ) {
-                            $objectResults[$coordinate] = $alignment;
-                    }
-                }
-                break;
-            default:
+        foreach ( $objects as $objectResult ) {
+            $objectResults[] = $objectResult;
         }
+        //switch ($outputFormat) {
+        //    case "blast9":
+        //        foreach ( $objects as $objectResult ) {
+        //            $objectResults[] = $objectResult;
+        //        }
+        //        break;
+        //    case "plsx":
+        //        foreach ( $objects as $coordinate => $alignment ) {
+        //            if ( (isset($objectResults[$coordinate]) === false) ||
+        //                ($objectResults[$coordinate]->score < $alignment->score) ) {
+        //                    $objectResults[$coordinate] = $alignment;
+        //            }
+        //        }
+        //        break;
+        //    default:
+        //}
 
         return $objectResults;
     }
