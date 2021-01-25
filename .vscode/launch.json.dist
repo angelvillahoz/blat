@@ -8,7 +8,7 @@
             "name": "BLAT",
             "type": "chrome",
             "request": "launch",
-            "url": "http://199.109.192.28:80",
+            "url": "<BLAT_BASE_URL>",
             "webRoot": "${workspaceFolder}/html"
         },
         {

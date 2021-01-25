@@ -13,19 +13,6 @@ class Spinner extends React.Component {
   }
 }
 
-function validate(sequence) {
-  const errorsList = [];
-  if (sequence.length < 20) {
-    errorsList.push('The sequence is too short');
-  } else {
-    if (sequence.match(/[^ACGTacgt]/gm)) {
-      errorsList.push('The sequence has invalid character(s): ' + sequence.match(/[^ACGTacgt]/gm));
-    }
-  }
-
-  return errorsList;
-}
-
 class BlatForm extends React.Component {
   constructor(props) {
     super(props);
@@ -37,8 +24,9 @@ class BlatForm extends React.Component {
       minimumIdentityPercentage: '95',
       sequence: '',
       outputFormats: [],
-      selectedOutputFormat: 'pslx',
+      selectedOutputFormat: 'psl',
       loading: false,
+      isDisabled: false,
       errors: []
     };
     this.changeSpeciesScientificName = this.changeSpeciesScientificName.bind(this);
@@ -49,19 +37,29 @@ class BlatForm extends React.Component {
   componentDidMount() {
     this.setState({
       speciesScientificNames: [
-        { name: 'Aedes aegypti (aaeg)', genomeAssemblyReleaseVersions: 
-          [ { name: 'aaeg5' } ]
+        { name: 'Aedes aegypti (aaeg)',
+          genomeAssemblyReleaseVersions: [
+            { name: 'aaeg5' }
+          ]
         },
-        { name: 'Anopheles gambiae (agam)', genomeAssemblyReleaseVersions:
-          [ { name: 'agam4' } ]
+        { name: 'Anopheles gambiae (agam)',
+          genomeAssemblyReleaseVersions: [
+            { name: 'agam4' }
+          ]
         },
-        { name: 'Drosophila melanogaster (dmel)', genomeAssemblyReleaseVersions:
-          [ { name: 'dm6'}, 
+        { name: 'Drosophila melanogaster (dmel)',
+          genomeAssemblyReleaseVersions: [
+            { name: 'dm6'}, 
             { name: 'dm3'},
             { name: 'dm2'},
-            { name: 'dm1'} ] },
-        { name: 'Tribolium castaneum (tcas)', genomeAssemblyReleaseVersions:
-          [ { name: 'tcas5.2' } ] } 
+            { name: 'dm1'}
+          ]
+        },
+        { name: 'Tribolium castaneum (tcas)',
+          genomeAssemblyReleaseVersions: [
+            { name: 'tcas5.2' }
+          ]
+        } 
       ],
       genomeAssemblyReleaseVersions: [
         { name: 'dm6'}, 
@@ -76,6 +74,7 @@ class BlatForm extends React.Component {
         { name: 'blast9'},
         { name: 'maf'},
         { name: 'psl'},
+        { name: 'psl - REDfly'},
         { name: 'pslx'},
         { name: 'sim4'},
         { name: 'wublast'}
@@ -103,10 +102,24 @@ class BlatForm extends React.Component {
     });    
   }
 
+  validate() {
+    const {sequence} = this.state;
+    const errorsList = [];
+    if (sequence.length < 20) {
+      errorsList.push('The sequence is too short');
+    } else {
+      if (sequence.match(/[^ACGTacgt]/gm)) {
+        errorsList.push('The sequence has invalid character(s): ' + sequence.match(/[^ACGTacgt]/gm));
+      }
+    }
+  
+    return errorsList;
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.state.sequence = this.state.sequence.replace(/(\r\n|\r|\n)/g, '');
-    const errors = validate(this.state.sequence);
+    const errors = this.validate();
     if (errors.length > 0) {
       this.setState({ errors: errors });
       this.setState({ list: ''});
@@ -115,6 +128,7 @@ class BlatForm extends React.Component {
       this.setState({ errors: [] });
     }
     this.setState({
+      isDisabled: true,
       loading: true
     });    
     axios({
@@ -125,12 +139,14 @@ class BlatForm extends React.Component {
     })
     .then(result => {
       this.setState({
+        isDisabled: false,
         list: result.data.results[0],
         loading: false
       });      
     })
     .catch(error => this.setState({ 
       errors : [error.message],
+      isDisabled: false,
       loading: false      
     }));
   };
@@ -203,11 +219,8 @@ class BlatForm extends React.Component {
 						  })}
 					  </select><br />
             <br />            
-            <input type="submit"
-                   value="Submit" />&nbsp;&nbsp;&nbsp;
-            <input type="button"
-                   value="Clear"
-                   onClick={this.handleClear} /><br />                   
+            <button type="submit" disabled={this.state.isDisabled} >Submit</button>&nbsp;&nbsp;&nbsp;
+            <button type="button" disabled={this.state.isDisabled} onClick={this.handleClear}>Clear</button><br />
             <br />
             {errors.map(error => (
               <p key={error}>Error: {error}</p>

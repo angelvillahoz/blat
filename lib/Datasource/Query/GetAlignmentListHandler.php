@@ -32,35 +32,10 @@ class GetAlignmentListHandler
                 "<br />",
                 preg_replace(
                     "/[\t]+/",
-                    "&emsp;",
+                    "&nbsp;&nbsp;&nbsp;&nbsp;",
                     $alignmentList
                 )
             );
-            //$coordinates = array();            
-            //switch ($getAlignmentList->getOutputFormat()) {
-            //    case "blast9":
-            //        $coordinates = preg_replace(
-            //            "/[\r\n]+/",
-            //            "<br />",
-            //            preg_replace(
-            //                "/[\t]+/",
-            //                "&emsp;",
-            //                $alignmentList
-            //            )
-            //        );
-            //        break;
-            //    case "plsx":
-            //        foreach ( $alignmentList as $rawAlignment ) {
-            //            $alignment = array(
-            //                "chromosome"    => $rawAlignment->chromosomeName,
-            //                "end"           => $rawAlignment->endCoordinate,
-            //                "start"         => $rawAlignment->startCoordinate
-            //            );
-            //            $coordinates[] = $alignment;
-            //        }
-            //       break;
-            //    default:
-            //}
         }
 
         return QueryResult::fromArray($coordinates);
