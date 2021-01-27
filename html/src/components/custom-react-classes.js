@@ -195,8 +195,8 @@ class BlatForm extends React.Component {
             <input type="text"
                    id="minimumIdentityPercentageId"
                    name="minimumIdentityPercentage"
-                   size="1"
                    required
+                   size="1"
                    title="Only between 0.01% as minimum and 100.00% as maximum with two digits after the decimal point"
                    pattern="^([0-9]\.[0-9][0-9]{0,1}|[1-9][0-9]{0,1}|[1-9][0-9]\.[0-9][0-9]{0,1}|100|100\.0{1,2})$"
                    value={this.state.minimumIdentityPercentage}

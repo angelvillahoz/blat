@@ -1,6 +1,6 @@
 # Configuration for the BLAT endpoint.
 blat:
-    url: 'blat_server:80'
+    url: 'blat_server:8080'
 
 # Credentials for the BLAT database.
 database:
