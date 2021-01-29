@@ -1,5 +1,5 @@
-docker stop $(docker ps -a -q)
-docker rm $(docker ps -a -q)
+docker stop $(docker ps --filter "name=blat_blat_server_1" --filter "name=blat_mariadb_server_1" --filter "name=blat_php_server_1" -q)
+docker rm blat_blat_server_1 blat_mariadb_server_1 blat_php_server_1
 docker rmi blat_blat_server
 docker rmi blat_php_server
 docker rmi $(docker images -f "dangling=true" -q)
