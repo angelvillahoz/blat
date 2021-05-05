@@ -173,7 +173,8 @@ class BlatForm extends React.Component {
     const {errors} = this.state;
     return ( 
       <div className="BlatForm">
-        <p>BLAT server</p>
+        <p>BLAT server with the <a href="http://genome.ucsc.edu/cgi-bin/hgBlat"
+                                   target="_blank">BLAT software</a> copyrighted by Jim Kent, used with permission</p>
         <div>
           <form onSubmit={this.handleSubmit}>
             <label>Species Scientific Name:&nbsp;</label>
