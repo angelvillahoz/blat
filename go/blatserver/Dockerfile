@@ -29,7 +29,7 @@ FROM alpine:3.13
 COPY --from=0 /go/src/main ./cmd/blatserver
 COPY --from=0 /go/src/blat /usr/local/bin
 EXPOSE 8080
-VOLUME ["./assets"]
+VOLUME ["/assets"]
 
 WORKDIR /cmd
 CMD ["./blatserver"]
