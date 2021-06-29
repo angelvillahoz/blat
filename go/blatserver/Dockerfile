@@ -24,7 +24,7 @@ RUN mkdir /tmp/blat && \
     (cd /tmp/blat/blatSrc && MACHTYPE=x86_64 make) && \
     mv /root/bin/x86_64/blat ./
 
-FROM alpine:3.13
+FROM alpine:3.14
 
 COPY --from=0 /go/src/main ./cmd/blatserver
 COPY --from=0 /go/src/blat /usr/local/bin
