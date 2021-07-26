@@ -2,13 +2,13 @@ BLAT = docker-compose exec blat_server blat
 PHP = docker-compose exec php_server php
 PHP_BASH = docker-compose exec php_server
 
-.PHONY: analyze build config database-backup docker-initialize docker-restart help lint logs node_modules-install php-libraries-reload schema-backup vendor-install vendor-update vscode-debug-settings-config xdebug
+.PHONY: analyze build configure database-backup docker-initialize docker-restart help lint logs node_modules-install php-libraries-reload schema-backup vendor-install vendor-update vscode-debug-settings-configure xdebug
 
 help:
 	@ echo "Usage: make [target]"
 	@ echo "  analyze                             Run the PHPStan static analysis tool on the codebase."
 	@ echo "  build                               Build the project for the deployment."
-	@ echo "  config                              Configure the BLAT application using the environment"
+	@ echo "  configure                           Configure the BLAT application using the environment"
 	@ echo "                                      variables. The BLAT_BASE_URL, SITE_AUTH_REALM, and"
 	@ echo "                                      MYSQL_PASSWORD environment variables must be set to"
 	@ echo "                                      configure the application for the deployment."
@@ -30,7 +30,7 @@ help:
 	@ echo "                                      used by the BLAT application"
 	@ echo "  vendor-update                       Rebuilds the Composer image and upgrade/downgrade all the PHP"
 	@ echo "                                      libraries used by the BLAT application"
-	@ echo "  vscode-debug-settings-config        Configure the Visual Studio Code debug settings"	
+	@ echo "  vscode-debug-settings-configure     Configure the Visual Studio Code debug settings"	
 	@ echo "  xdebug                              Activate the XDebug module for PHP debugging."
 
 analyze: vendor
@@ -39,7 +39,7 @@ analyze: vendor
 build: logs vendor-install node_modules-install
 	cd ./go/blatserver/assets && sh ./download-external-assets.sh
 
-config:
+configure:
 	cp ./config/settings.yml.dist ./config/settings.yml
 	chmod 0644 ./config/settings.yml
 	sed -i 's,<BLAT_BASE_URL>,$(BLAT_BASE_URL),g' ./config/settings.yml
@@ -100,7 +100,7 @@ vendor-update: composer.json
 	docker run --rm --volume $(PWD):/app --user $$(id -u):$$(id -g) composer validate
 	docker run --rm --volume $(PWD):/app --user $$(id -u):$$(id -g) composer update
 
-vscode-debug-settings-config:
+vscode-debug-settings-configure:
 	cp ./.vscode/launch.json.dist ./.vscode/launch.json
 	chmod 0664 ./.vscode/launch.json
 	sed -i 's,<BLAT_BASE_URL>,$(BLAT_BASE_URL),g' ./.vscode/launch.json
